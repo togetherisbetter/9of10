@@ -1,14 +1,14 @@
 # [Alternatives To Product Managers](https://www.svpg.com/alternatives-to-product-managers)
 (Marty Cagan, SVPG blog, 28 Nov 2023)
 
-## Explanations
+## Explanations for this article
 * This is a response to [Brian Chesky](https://www.linkedin.com/in/brianchesky)'s (CEO Airbnb) ["New playbook" interview](https://www.lennyspodcast.com/brian-cheskys-new-playbook) (12 Nov 2023) to [Lenny Rachitsky](https://www.linkedin.com/in/lennyrachitsky) (ex Airbnb Product Lead, Author of [Lenny's Newsletter](https://www.lennysnewsletter.com) and [Lenny's Podcast](https://www.lennyspodcast.com));
 * Marty likes "to write about topics that I think will endure, and are not just a response to temporary interest from a single leader making a provocative statement";
 * Many leaders are frustrated about their Product Managers due to [CSPO Pathology](https://www.svpg.com/the-cspo-pathology/) (Marty Cagan, SVPG blog, 9 June 2021) and "that interview gets many of these issues out on the table";
 * This is a part 1: Alternatives To Product Managers;
 * Expect a part 2: Alternatives To Product Leaders.
 
-## Warns
+## Warns for this article content
 * If you don't know the difference between [Product Team and Feature Team](http://www.svpg.com/product-vs-feature-teams) (Marty Cagan, SVPG blog, 29 August 2019) please read it carefully before continue;
 * There's no right way to build. Please read [SVPG Process](https://www.svpg.com/an-svpg-process) (Marty Cagan, SVPG blog, 26 August 2022);
 * "My work is all about sharing the practices that try to give you the best chance of product success".
