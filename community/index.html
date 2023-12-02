@@ -39,7 +39,7 @@
           .then((data) => {
             const lines = data.split("\n");
             let people = '';
-            for (let i = 2; i < lines.length; i++) { // skip first 2 lines because headers there
+            for (let i = 0; i < lines.length; i++) {
               if (lines[i].trim().length == 0)
                 continue;
 
