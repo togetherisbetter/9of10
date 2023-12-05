@@ -33,7 +33,7 @@
       }
     </style>
     <script type="text/javascript">
-      function fetch_and_display_people2() {
+      function fetch_and_display_people() {
         fetch('https://9of10.org/community/projects.csv')
           .then((response) => response.text())
           .then((data) => {
@@ -43,7 +43,7 @@
               if (lines[i].trim().length == 0)
                 continue;
 
-              const project_data = lines[i].split(";");
+              const project_data = lines[i].split(",");
 
               let project = '<tr>';
               for (let j = 0; j < project_data.length; j++) {
