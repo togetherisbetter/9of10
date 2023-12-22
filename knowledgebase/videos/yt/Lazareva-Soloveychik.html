@@ -29,7 +29,9 @@
     body, html {
       padding: 0;
       margin: 0;
-      height: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     h1 {
       font-family: 'Literata', serif;
@@ -42,12 +44,12 @@
       font-size: 1.2em;
     }
     .content {
+      flex: 1 1 auto;
       padding: 15px;
-      height: 100%;
       margin-left: 0px;
       overflow-y: scroll;
       font-family: 'Open Sans', sans-serif;
-      font-size: 0.9em;
+      font-size: 1em;
     }
     ul {
       list-style: none;
@@ -66,6 +68,7 @@
       height: calc(100vw/1.77);
       padding: 0;
       margin: 0;
+      flex: 0 0 auto;
     }
   </style>
   <script type="text/javascript" src="../../../src/js/process_links2.js"></script>
