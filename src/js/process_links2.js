@@ -29,6 +29,7 @@ function listen_to_links() {
     
     if (!href) {
       each_link.addEventListener('click', function(event) { watch(event); });
+      each_link.classList.add("link");
     }
   }
 }
