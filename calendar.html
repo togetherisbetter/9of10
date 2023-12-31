@@ -1,0 +1,114 @@
+<html>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <!--script async src="https://www.googletagmanager.com/gtag/js?id=G-BPS2S5MCLH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BPS2S5MCLH');
+    </script-->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"-->
+
+    <style type="text/css">
+      body, html {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+    <script type="text/javascript">
+      const circle_radius = 2;
+      const number_of_weeks_in_a_row = 52;
+      const number_of_years = 90;
+        
+      function get_url_params() {
+
+      }
+
+      function calculate_weeks_since(birthday) {  // https://stackoverflow.com/questions/542938/how-to-calculate-number-of-days-between-two-dates
+        const diff_ms = new Date() - new Date(birthday);
+        const diff_days = diff_ms / (1000 * 60 * 60 * 24);
+        return Math.floor(diff_days / 7);
+      }
+
+      function prepare_weeks_numbers() {
+        let content = '';
+
+        for (let week = 1; week <= number_of_weeks_in_a_row; week++) {
+          let x_offset = (week + 1) * 5;
+          let cx = x_offset - circle_radius;
+          content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="' + cx + '" y="4">'
+          if (week % 4 == 0) // add a marker for every 4-th week
+            content += week;
+          content += '</text>';
+        }
+
+        return content;
+      }
+
+      function prepare_years_numbers() {
+        let content = '';
+
+        for (let year = 1; year <= number_of_years; year++) {
+          let y_offset = (year) * 5 + 5 + 1;
+          let cy = y_offset - circle_radius;
+          content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="2" y="' + cy + '">'
+          if (year % 5 == 0) // add a marker for every 4-th year
+            content += year;
+          content += '</text>';
+        }
+
+        return content;
+      }
+
+      function draw_calendar(element_id) {
+        const circle_default_color = '#e9e9e9';
+        const circle_passed_color = 'skyblue';
+
+        let content = '<svg viewBox="0 0 265 500" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
+
+        content += prepare_weeks_numbers();
+        content += prepare_years_numbers();
+
+        const weeks_passed = calculate_weeks_since('1987-06-30');
+        let weeks_drawn = 0;
+        for (let year = 1; year <= number_of_years; year++) {
+          let y_offset = (year + 1) * 5;
+          let cy = y_offset - circle_radius;
+
+          for (let week = 1; week <= number_of_weeks_in_a_row; week++) {
+            let x_offset = (week + 1) * 5;
+            let cx = x_offset - circle_radius;
+            content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + circle_radius + '" fill="';
+            if (weeks_passed < weeks_drawn)
+              content += circle_default_color;
+            else
+              content += circle_passed_color;
+
+            weeks_drawn += 1;
+            content += '" />';
+          }
+        }
+        content += '</svg>';
+
+        document.getElementById(element_id).innerHTML += content;
+      }
+      window.onload = function() {
+        draw_calendar("calendar");
+      };
+    </script>
+  </head>
+  <body>
+    <div id="calendar">
+      <p style="color: black; text-align: center; width: 100%; margin: 10% 0 20px 0; font-size: 1.2em; padding-left: 5px;">1987-06-30</p>
+    </div>
+  </body>
+</html>
