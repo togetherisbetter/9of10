@@ -73,11 +73,11 @@
         const circle_default_color = '#e9e9e9';
         const circle_passed_color = 'skyblue';
 
-        let content = '<svg viewBox="0 0 265 500" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
+        let content = '<svg viewBox="0 0 265 550" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
 
         content += prepare_weeks_numbers();
         content += prepare_years_numbers();
-        /*
+        
         const weeks_passed = calculate_weeks_since(date);
         let weeks_drawn = 1;
         for (let year = 1; year <= number_of_years; year++) {
@@ -97,7 +97,7 @@
             content += '" />';
           }
         }
-        */
+
         content += '</svg>';
 
         document.getElementById(element_id).innerHTML = content;
