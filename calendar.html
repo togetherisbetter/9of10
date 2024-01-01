@@ -58,7 +58,8 @@
         let content = '';
 
         for (let year = 1; year <= number_of_years; year++) {
-          let y_offset = (year) * 5 + 5 + 1;
+          // let y_offset = (year) * 5 + 5 + 1;
+          let y_offset = (year) * 5 + 5 + 3;
           let cy = y_offset - circle_radius;
           content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="2" y="' + cy + '">'
           if (year % 5 == 0) // add a marker for every 4-th year
