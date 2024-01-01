@@ -87,6 +87,8 @@
           //let y_offset = (year + 1) * 5;
           let y_offset = (year + 3) * 5;
           let cy = y_offset - circle_radius;
+          if (year == 1)
+            document.getElementById("log").innerHTML += cy + '<br>';
 
           for (let week = 1; week <= number_of_weeks_in_a_row; week++) {
             let x_offset = (week + 1) * 5;
@@ -121,5 +123,6 @@
     <div id="calendar"></div>
     <p style="color: black; text-align: center; width: 100%; margin: 0% 0 0px 0; font-size: 1em;">Share calendar with others:</p>
     <img src="https://www.dropbox.com/s/6j8prd7zq4htyx4/calendar-qr-code.jpg?raw=1" style="width: 50%; margin: 0 25% 20% 25%;">
+    <p id="log"></p>
   </body>
 </html>
