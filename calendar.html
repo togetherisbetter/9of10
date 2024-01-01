@@ -77,7 +77,7 @@
 
         content += prepare_weeks_numbers();
         content += prepare_years_numbers();
-
+        /*
         const weeks_passed = calculate_weeks_since(date);
         let weeks_drawn = 1;
         for (let year = 1; year <= number_of_years; year++) {
@@ -97,6 +97,7 @@
             content += '" />';
           }
         }
+        */
         content += '</svg>';
 
         document.getElementById(element_id).innerHTML = content;
@@ -107,10 +108,10 @@
     </script>
   </head>
   <body>
-    <!--p style="color: black; text-align: center; width: 100%; margin: 10% 0 20px 0; font-size: 1em;">
+    <p style="color: black; text-align: center; width: 100%; margin: 10% 0 20px 0; font-size: 1em;">
       Birthday:<br>
       <input type="date" value="1987-06-30" onchange="recalculate_calendar(this);">
-    </p-->
+    </p>
     <div id="calendar"></div>
     <p style="color: black; text-align: center; width: 100%; margin: 0% 0 0px 0; font-size: 1em;">Share calendar with others:</p>
     <img src="https://www.dropbox.com/s/6j8prd7zq4htyx4/calendar-qr-code.jpg?raw=1" style="width: 50%; margin: 0 25% 20% 25%;">
