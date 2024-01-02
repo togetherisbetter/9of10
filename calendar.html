@@ -37,8 +37,8 @@
       const is_mobile = window.mobileCheck();
 
       const year_mean = 65;
-      const year_median = 72;
-      const year_mode = 76;
+      const year_median = 70;
+      const year_mode = 74;
         
       function recalculate_calendar(element) {
         draw_calendar("calendar", element.value);
@@ -101,7 +101,8 @@
           let yy = (y - 1) * y_step + y_offset;
           points += yy + ',' + xx + ' ';
         }
-        console.log(points)
+        console.log(coordinates);
+        console.log(points);
         return points;
       }
 
@@ -177,11 +178,27 @@ for (var i = 2; i + 5 < process.argv.length; i += 2) {
 var lastArg = process.argv.length - 1;
 console.log("L"+process.argv[lastArg-1]+","+process.argv[lastArg]);
 */
+      function make_coordinates(array) {
+        const total = array.reduce((a, b) => a + b, 0);
+        const max = Math.max(...array);
+
+        let coordinates = {};
+        for (let i = 0; i < number_of_years; i++) {
+          let value = array[i];
+          let value_normalised = value / max;
+          let value_mapped_on_weeks = Math.floor(number_of_weeks_in_a_row * value_normalised);
+          coordinates[i+1] = value_mapped_on_weeks;
+        }
+        return coordinates;
+      }
 
       function prepare_line_deaths() {
         let content = '';
-        content += '<polyline fill="none" stroke="gray" stroke-width="2" stroke-linejoin="round" points="';
-        content += coordinates_to_points({1:1, 30:5, 45:10, 65:40, 72:43, 76:44, 90:3});
+        const deaths = [2215, 216, 113, 82, 73, 69, 67, 70, 68, 61, 61, 61, 61, 57, 66, 78, 96, 120, 154, 157, 176, 196, 206, 212, 208, 229, 237, 247, 248, 275, 286, 282, 301, 323, 322, 362, 376, 397, 408, 408, 501, 501, 568, 658, 658, 792, 792, 837, 906, 917, 1040, 1072, 1179, 1221, 1327, 1420, 1517, 1620, 1648, 1839, 1901, 1974, 2089, 2188, 2181, 2268, 2378, 2442, 2593, 2646, 2646, 2700, 2793, 2793, 2793, 2700, 2700, 2613, 2610, 2534, 2464, 2270, 2171, 2035, 1792, 1601, 1466, 1268, 985, 906, 708, 545, 444, 343, 257, 194, 143, 102, 72, 50, 33, 22, 14, 9, 5, 3, 2, 1, 1, 0, 0];
+
+        content += '<polyline fill="none" stroke="black" stroke-width="1" stroke-linejoin="round" points="';
+        //content += coordinates_to_points({1:1, 30:5, 45:10, 65:40, 72:43, 76:44, 90:3});
+        content += coordinates_to_points(make_coordinates(deaths));
         content += '"/>';
 
         return content;
