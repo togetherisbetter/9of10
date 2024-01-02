@@ -84,8 +84,10 @@
       }
 
       function coordinates_to_points(coordinates) {
-        const x_offset = 8;
-        const y_offset = 8;
+        let x_offset = 8;
+        let y_offset = 8;
+        if (is_mobile)
+          y_offset += 10;
         const x_max = 263;
         const y_max = 453;
         const x_step = 5;
