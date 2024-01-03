@@ -33,7 +33,7 @@
 
       const circle_radius = 2;
       const number_of_weeks_in_a_row = 52;
-      const number_of_years = 90;
+      const number_of_years = 110;
       const is_mobile = window.mobileCheck();
 
       const year_mean = 65;
@@ -87,7 +87,7 @@
         let x_offset = 8;
         if (is_mobile)
           x_offset += 10;
-        let y_offset = 8 + 5;
+        let y_offset = 8 + 2;
         const x_max = 263;
         const y_max = 453;
         const x_step = 5;
@@ -226,14 +226,15 @@ console.log("L"+process.argv[lastArg-1]+","+process.argv[lastArg]);
       }
 
       function draw_calendar(element_id, date) {
-        const circle_default_color = '#e9e9e9';
+        const circle_default_color = 'white'; // '#e9e9e9';
         const circle_passed_color = 'skyblue';
         
         const circle_mean_color = 'lightgray';
         const circle_median_color = 'darkgray';
         const circle_mode_color = 'gray';
 
-        let content = '<svg viewBox="0 0 265 470" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
+        const calendar_height = number_of_years * 5 + 15;
+        let content = '<svg viewBox="0 0 268 ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
 
         content += prepare_weeks_numbers();
         content += prepare_years_numbers();
@@ -267,7 +268,7 @@ console.log("L"+process.argv[lastArg-1]+","+process.argv[lastArg]);
               content += circle_passed_color;
 
             weeks_drawn += 1;
-            content += '" />';
+            content += '" stroke-width="0.1" stroke="black" />';
           }
         }
 
