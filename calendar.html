@@ -57,11 +57,14 @@
 
       function calculate_new_year_week(birthday) {
         const date = new Date(birthday);
-        const diff_ms = date - new Date(date.getFullYear() + '-01-01');
+        const next_year = date.getFullYear() + 1;
+        const diff_ms = new Date(next_year + '-01-01') - date;
         const diff_days = diff_ms / (1000 * 60 * 60 * 24);
+        //console.log(diff_days)
+        //let week_new_year = Math.floor(diff_days / 7) + 1;  // no errors for weeks during 1 year
         let week_new_year = Math.floor(diff_days / 7) + 1;  // no errors for weeks during 1 year
         if (week_new_year == 53)  // leap year week possible mistake fix
-          week_new_year = 52;
+          week_new_year = 1;
         return week_new_year;
       }
 
