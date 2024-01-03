@@ -37,7 +37,7 @@
       const calendar_step_horizontal = 5;
       const calendar_step_vertical = 5;
       const calendar_weeks_numbers_height = 5;
-      const calendar_years_numbers_width = 4;
+      const calendar_years_numbers_width = 6;
       const is_mobile = window.mobileCheck();
 
       // to be calculated
@@ -53,6 +53,16 @@
         const diff_ms = new Date() - new Date(birthday);
         const diff_days = diff_ms / (1000 * 60 * 60 * 24);
         return Math.floor(diff_days / 7.024038461538462);  // (365*3+366)/4/52
+      }
+
+      function calculate_new_year_week(birthday) {
+        const date = new Date(birthday);
+        const diff_ms = date - new Date(date.getFullYear() + '-01-01');
+        const diff_days = diff_ms / (1000 * 60 * 60 * 24);
+        let week_new_year = Math.floor(diff_days / 7) + 1;  // no errors for weeks during 1 year
+        if (week_new_year == 53)  // leap year week possible mistake fix
+          week_new_year = 52;
+        return week_new_year;
       }
 
       function prepare_weeks_numbers() {
@@ -71,10 +81,9 @@
         return content;
       }
 
-      function prepare_years_numbers() {
+      function prepare_years_numbers(birthday) {
         let content = '';
-        console.log('year to be dynamic')
-        
+
         for (let year = 1; year <= number_of_years; year++) {
           if (year % 5 == 0) { // add age marker for every 5-th year
             let y_offset = year * calendar_step_vertical + calendar_weeks_numbers_height + 1;
@@ -82,13 +91,23 @@
               y_offset += 1;
 
             const cy = y_offset - circle_radius;
-            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="8" y="' + cy + '" font-weight="bold">'
+            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="10" y="' + cy + '" font-weight="bold">'
             content += year;
             content += '</text>';
           
             const cy2 = cy + calendar_step_vertical;
-            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="8" y="' + cy2 + '">'
-            content += 1987 + year;
+            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="10" y="' + cy2 + '">'
+            const birthday_date = new Date(birthday);
+            const birthday_year = birthday_date.getFullYear();
+            if (birthday_date.getMonth() == 0 && birthday_date.getDate() <= 7) {
+              content += birthday_year + year;
+            }
+            else {
+              // https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
+              const year_from = (birthday_year + year).toString().slice(2, 4);  // from 2004 get 04
+              const year_to = (birthday_year + year + 1).toString().slice(2, 4);
+              content +=  year_from + '/' + year_to;
+            }
             content += '</text>';
           }
         }
@@ -172,10 +191,11 @@
         let content = '<svg viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
 
         content += prepare_weeks_numbers();
-        content += prepare_years_numbers();
+        content += prepare_years_numbers(date);
         //content += prepare_lines();
         
         const weeks_passed = calculate_weeks_since(date);
+        const week_new_year = calculate_new_year_week(date);
         let weeks_drawn = 1;
         for (let year = 1; year <= number_of_years; year++) {
           let y_offset = (year + 1) * calendar_step_vertical;
@@ -184,8 +204,7 @@
           
           let cy = y_offset - circle_radius;
           for (let week = 1; week <= number_of_weeks_in_a_row; week++) {
-            let x_offset = (week + 1) * calendar_step_horizontal + calendar_years_numbers_width;
-            let cx = x_offset - circle_radius;
+            let cx = (week + 1) * calendar_step_horizontal + calendar_years_numbers_width - circle_radius;
             content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + circle_radius + '" fill="';
             if (year == year_mean)
               content += circle_mean_color;
@@ -198,8 +217,15 @@
             else
               content += circle_passed_color;
 
+            let stroke = "black";
+            let stroke_width = "0.1";
+            if (week == week_new_year) {
+              stroke = "black";
+              stroke_width = "0.2";
+            }
+
+            content += '" stroke="' + stroke + '" stroke-width="' + stroke_width + '"/>';
             weeks_drawn += 1;
-            content += '" stroke-width="0.1" stroke="black" />';
           }
         }
 
