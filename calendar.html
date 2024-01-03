@@ -219,12 +219,18 @@
 
             let stroke = "black";
             let stroke_width = "0.1";
-            if (week == week_new_year) {
-              stroke = "black";
-              stroke_width = "0.2";
-            }
+
+            //if (week == week_new_year) {
+            //  stroke = "black";
+            //  stroke_width = "0.1";
+            //}
 
             content += '" stroke="' + stroke + '" stroke-width="' + stroke_width + '"/>';
+            if (week == week_new_year) {
+              content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.3 + '" fill="';
+              stroke = "lightgray"
+              content += '" stroke="' + stroke + '" stroke-width="' + stroke_width + '"/>';
+            }
             weeks_drawn += 1;
           }
         }
