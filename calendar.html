@@ -73,7 +73,8 @@
 
       function prepare_years_numbers() {
         let content = '';
-
+        console.log('year to be dynamic')
+        
         for (let year = 1; year <= number_of_years; year++) {
           if (year % 5 == 0) { // add age marker for every 5-th year
             let y_offset = year * calendar_step_vertical + calendar_weeks_numbers_height + 1;
@@ -81,14 +82,12 @@
               y_offset += 1;
 
             const cy = y_offset - circle_radius;
-            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline2" x="8" y="' + cy + '" font-weight="bold">'
+            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="8" y="' + cy + '" font-weight="bold">'
             content += year;
             content += '</text>';
           
             const cy2 = cy + calendar_step_vertical;
             content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="8" y="' + cy2 + '">'
-            
-            console.log('year to be dynamic')
             content += 1987 + year;
             content += '</text>';
           }
