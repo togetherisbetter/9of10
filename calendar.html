@@ -33,12 +33,16 @@
 
       const circle_radius = 2;
       const number_of_weeks_in_a_row = 52;
-      const number_of_years = 111;
+      const number_of_years = 101;
       const calendar_step_horizontal = 5;
       const calendar_step_vertical = 5;
       const calendar_weeks_numbers_height = 5;
       const calendar_years_numbers_width = 6;
       const is_mobile = window.mobileCheck();
+
+      const screen_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      //const calendar_step_vertical = (screen_height - 15) / number_of_years;
+      console.log(calendar_step_vertical)
 
       // to be calculated
       const year_mean = 65;
@@ -191,7 +195,8 @@
 
         const calendar_height = number_of_years * calendar_step_vertical + 15;
         const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6;
-        let content = '<svg viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
+        let content = '<svg height="98%" viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
+        console.log(calendar_height, calendar_width)
 
         content += prepare_weeks_numbers();
         content += prepare_years_numbers(date);
