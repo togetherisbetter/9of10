@@ -33,9 +33,14 @@
 
       const circle_radius = 2;
       const number_of_weeks_in_a_row = 52;
-      const number_of_years = 110;
+      const number_of_years = 111;
+      const calendar_step_horizontal = 5;
+      const calendar_step_vertical = 5;
+      const calendar_weeks_numbers_height = 5;
+      const calendar_years_numbers_width = 4;
       const is_mobile = window.mobileCheck();
 
+      // to be calculated
       const year_mean = 65;
       const year_median = 69;
       const year_mode = 74;
@@ -54,12 +59,13 @@
         let content = '';
 
         for (let week = 1; week <= number_of_weeks_in_a_row; week++) {
-          let x_offset = (week + 1) * 5;
-          let cx = x_offset - circle_radius;
-          content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="' + cx + '" y="4">';
-          if (week % 4 == 0) // add a marker for every 4-th week
+          if (week % 4 == 0) { // add a marker for every 4-th week
+            let x_offset = (week + 1) * calendar_step_horizontal + calendar_years_numbers_width;
+            let cx = x_offset - circle_radius;
+            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="' + cx + '" y="4" font-weight="bold">';
             content += week;
-          content += '</text>';
+            content += '</text>';
+          }
         }
 
         return content;
@@ -69,115 +75,44 @@
         let content = '';
 
         for (let year = 1; year <= number_of_years; year++) {
-          let y_offset = (year) * 5 + 5 + 1;
-          if (is_mobile)  // idk why on mobiles is calculated differently
-            y_offset += 1;
-          //let y_offset = (year) * 5 + 5 + 2;
-          let cy = y_offset - circle_radius;
-          content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="2" y="' + cy + '">'
-          if (year % 5 == 0) // add a marker for every 4-th year
+          if (year % 5 == 0) { // add age marker for every 5-th year
+            let y_offset = year * calendar_step_vertical + calendar_weeks_numbers_height + 1;
+            if (is_mobile)  // idk why on mobiles is calculated differently
+              y_offset += 1;
+
+            const cy = y_offset - circle_radius;
+            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline2" x="8" y="' + cy + '" font-weight="bold">'
             content += year;
-          content += '</text>';
+            content += '</text>';
+          
+            const cy2 = cy + calendar_step_vertical;
+            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="8" y="' + cy2 + '">'
+            
+            console.log('year to be dynamic')
+            content += 1987 + year;
+            content += '</text>';
+          }
         }
 
         return content;
       }
 
       function coordinates_to_points(coordinates) {
-        let x_offset = 8;
-        if (is_mobile)
-          x_offset += 10;
-        let y_offset = 8 + 2;
-        const x_max = 263;
-        const y_max = 453;
-        const x_step = 5;
-        const y_step = 5;
-        const y_range = y_max - y_offset;
+        let vertical_offset = calendar_weeks_numbers_height + 1 + circle_radius;
+        if (is_mobile)  // idk why on mobiles is calculated differently
+          vertical_offset += 10;
+        let horizontal_offset = calendar_years_numbers_width;
 
         let points = '';
-        for (let x in coordinates) {
-          let y = coordinates[x];
-          let xx = (x - 1) * x_step + x_offset;
-          let yy = (y - 1) * y_step + y_offset;
-          points += yy + ',' + xx + ' ';
+        for (let key in coordinates) {
+          let value = coordinates[key];
+          let vertical = (key - 1) * calendar_step_vertical + vertical_offset;
+          let horizontal = (value - 1) * calendar_step_horizontal + horizontal_offset + 10;
+          points += horizontal + ',' + vertical + ' ';
         }
-        //console.log(coordinates);
-        //console.log(points);
         return points;
       }
 
-/*
-// https://github.com/SabineWren/svg-polyline-rounded-corners/blob/master/README.md
-
-var radius = 12;
-
-var lineToVector = function (p1, p2) {
-  var vector = {
-    x: p2.x - p1.x,
-    y: p2.y - p1.y
-  };
-  return vector;
-}
-
-var vectorToUnitVector = function (v) {
-  var magnitude = v.x * v.x + v.y * v.y;
-  var magnitude = Math.sqrt(magnitude);
-  var unitVector = {
-    x: v.x / magnitude,
-    y: v.y / magnitude
-  };
-  return unitVector;
-}
-
-var roundOneCorner = function (p1, corner, p2) {
-  var corner_to_p1 = lineToVector(corner, p1);
-  var corner_to_p2 = lineToVector(corner, p2);
-  var corner_to_p1_unit = vectorToUnitVector(corner_to_p1);
-  var corner_to_p2_unit = vectorToUnitVector(corner_to_p2);
-  
-  var curve_p1 = {
-    x: corner.x + corner_to_p1_unit.x * radius,
-    y: corner.y + corner_to_p1_unit.y * radius
-  };
-  var curve_p2 = {
-    x: corner.x + corner_to_p2_unit.x * radius,
-    y: corner.y + corner_to_p2_unit.y * radius
-  };
-  var path = {
-    line_end: curve_p1,
-    curve_control: corner,
-    curve_end: curve_p2
-  };
-  return path;
-}
-
-var printPath = function (path) {
-  console.log("L" + path.line_end.x.toFixed(1)      + "," + path.line_end.y.toFixed(1));
-  console.log("Q" + path.curve_control.x.toFixed(1) + "," + path.curve_control.y.toFixed(1)
-      +" "+ path.curve_end.x.toFixed(1)     + "," + path.curve_end.y.toFixed(1));
-}
-
-console.log("M"+process.argv[2]+","+process.argv[3]);
-for (var i = 2; i + 5 < process.argv.length; i += 2) {
-  
-  var p1 = {
-    x:  parseInt(process.argv[i]),
-    y:  parseInt(process.argv[i+1])
-  }
-  var p2 = {
-    x:  parseInt(process.argv[i+2]),
-    y:  parseInt(process.argv[i+3])
-  }
-  var p3 = {
-    x:  parseInt(process.argv[i+4]),
-    y:  parseInt(process.argv[i+5])
-  }
-  var path = roundOneCorner(p1, p2, p3);
-  printPath(path);
-}
-var lastArg = process.argv.length - 1;
-console.log("L"+process.argv[lastArg-1]+","+process.argv[lastArg]);
-*/
       function make_coordinates(array) {
         const total = array.reduce((a, b) => a + b, 0);
         const max = Math.max(...array);
@@ -233,8 +168,9 @@ console.log("L"+process.argv[lastArg-1]+","+process.argv[lastArg]);
         const circle_median_color = 'darkgray';
         const circle_mode_color = 'gray';
 
-        const calendar_height = number_of_years * 5 + 15;
-        let content = '<svg viewBox="0 0 268 ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
+        const calendar_height = number_of_years * calendar_step_vertical + 15;
+        const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6;
+        let content = '<svg viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 86%; margin: 0% 7%;">';
 
         content += prepare_weeks_numbers();
         content += prepare_years_numbers();
@@ -243,17 +179,13 @@ console.log("L"+process.argv[lastArg-1]+","+process.argv[lastArg]);
         const weeks_passed = calculate_weeks_since(date);
         let weeks_drawn = 1;
         for (let year = 1; year <= number_of_years; year++) {
-          let y_offset = (year + 1) * 5;
+          let y_offset = (year + 1) * calendar_step_vertical;
           if (is_mobile)
-            y_offset = (year + 3) * 5;
-          //let y_offset = (year + 1) * 5;
-          //let y_offset = (year + 3) * 5;
+            y_offset += 10;
+          
           let cy = y_offset - circle_radius;
-          //if (year == 1)
-          //  document.getElementById("log").innerHTML += cy + '<br>';
-
           for (let week = 1; week <= number_of_weeks_in_a_row; week++) {
-            let x_offset = (week + 1) * 5;
+            let x_offset = (week + 1) * calendar_step_horizontal + calendar_years_numbers_width;
             let cx = x_offset - circle_radius;
             content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + circle_radius + '" fill="';
             if (year == year_mean)
