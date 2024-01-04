@@ -160,14 +160,14 @@
 
       function prepare_line_deaths(coordinates) {
         let content = '';
-        content += '<polyline fill="none" stroke="black" stroke-width="0.5" stroke-linejoin="round" points="';
+        content += '<polyline fill="none" stroke="black" stroke-width="0.3" stroke-linejoin="round" points="';
         content += coordinates_to_points(coordinates.deaths);
         content += '"/>';
         return content;
       }
       function prepare_line_integral(coordinates) {
         let content = '';
-        content += '<polyline fill="none" stroke="black" stroke-width="0.5" stroke-dasharray="4 2" stroke-linejoin="round" points="';
+        content += '<polyline fill="none" stroke="black" stroke-width="0.3" stroke-dasharray="4 2" stroke-linejoin="round" points="';
         content += coordinates_to_points(coordinates.integral);
         content += '"/>';
         return content;
@@ -193,9 +193,9 @@
         const circle_median_color = 'darkgray';
         const circle_mode_color = 'gray';
 
-        const calendar_height = number_of_years * calendar_step_vertical + 15;
+        const calendar_height = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height;
         const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6;
-        let content = '<svg height="98%" viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 88%; margin: 0% 7% 0 5%;">';
+        let content = '<svg height="96%" viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 88%; margin: 15px 7% 0 5%;">';
         console.log(calendar_height, calendar_width)
 
         content += prepare_weeks_numbers();
@@ -235,7 +235,7 @@
 
             content += '" stroke="' + stroke + '" stroke-width="' + stroke_width + '"/>';
             if (week == week_new_year) {
-              content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.3 + '" fill="';
+              content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.4 + '" fill="';
               stroke = "lightgray"
               content += '" stroke="' + stroke + '" stroke-width="' + stroke_width + '"/>';
             }
@@ -254,12 +254,14 @@
     </script>
   </head>
   <body>
-    <p style="color: black; text-align: center; width: 100%; margin: 10% 0 20px 0; font-size: 1em;">
-      Birthday:<br>
+    <div id="calendar"></div>
+
+    <p style="color: black; text-align: center; width: 100%; margin: 10% 0 0 0; font-size: 1em;">
+      Set your birthday:<br>
       <input type="date" value="1987-06-30" onchange="recalculate_calendar(this);">
     </p>
-    <div id="calendar"></div>
-    <p style="color: black; text-align: center; width: 100%; margin: 25% 0 0px 0; font-size: 1em;">Share calendar with others:</p>
+    
+    <p style="color: black; text-align: center; width: 100%; margin: 10% 0 0 0; font-size: 1em;">Share calendar with others:</p>
     <img src="https://www.dropbox.com/s/6j8prd7zq4htyx4/calendar-qr-code.jpg?raw=1" style="width: 50%; margin: 0 25% 20% 25%;">
     <p id="log"></p>
   </body>
