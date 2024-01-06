@@ -74,6 +74,12 @@
         return week_new_year;
       }
 
+      function prepare_new_year_label(week_new_year) {
+        const cx = week_new_year * calendar_step_horizontal + calendar_years_numbers_width + circle_radius + 1;
+        const cy = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height + 10 + 5;
+        return '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="' + cx + '" y="' + cy + '">NY</text>';
+      }
+
       function prepare_weeks_numbers() {
         let content = '';
 
@@ -106,16 +112,15 @@
           
             const cy2 = cy + calendar_step_vertical;
             content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="15" y="' + cy2 + '">'
+
             const birthday_date = new Date(birthday);
             const birthday_year = birthday_date.getFullYear();
-            if (birthday_date.getMonth() == 0 && birthday_date.getDate() <= 7) {
+            if (birthday_date.getMonth() == 0 && birthday_date.getDate() <= 7)  // in case of birthday during 1st week of January don't write 2004/05, but 2004
               content += birthday_year + year;
-            }
             else {
-              // https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
-              const year_from = (birthday_year + year).toString()//.slice(2, 4);  // from 2004 get 04
-              const year_to = (birthday_year + year + 1).toString().slice(2, 4);
-              content +=  year_from + '/' + year_to;
+              const year_from = (birthday_year + year).toString();
+              const year_to = (birthday_year + year + 1).toString();
+              content +=  year_from + '/' + year_to.slice(2, 4);  // 2023/24
             }
             content += '</text>';
           }
@@ -288,6 +293,7 @@
         //content += prepare_lines();
 
         const week_new_year = calculate_new_year_week(date);
+
         let total_weeks = 1;
         for (let year = 1; year <= number_of_years; year++) {
           let y_offset = (year + 1) * calendar_step_vertical;
@@ -313,22 +319,21 @@
               content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.4 + '" fill="" stroke="lightgray" stroke-width="0.1"/>';
 
             const cx2 = cx + 4;
-            const cy2 = cy - calendar_weeks_numbers_height - circle_radius;  
-            if (year == year_mean && week == number_of_weeks_in_a_row) {
-              content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">Mean LE</text>';
-            }
-            else if (year == year_median && week == number_of_weeks_in_a_row) {
-              content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">Median LE</text>';
-            }
-            else if (year == year_mode && week == number_of_weeks_in_a_row) {
-              content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">Mode LE</text>';
-            }
+            const cy2 = cy - calendar_weeks_numbers_height - circle_radius - 1;
+            const mean_median_mode = '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">';
+            if (year == year_mean && week == number_of_weeks_in_a_row)
+              content += mean_median_mode + 'Mean LE' + '</text>';
+            else if (year == year_median && week == number_of_weeks_in_a_row)
+              content += mean_median_mode + 'Median LE' + '</text>';
+            else if (year == year_mode && week == number_of_weeks_in_a_row)
+              content += mean_median_mode + 'Mode LE' + '</text>';
 
             total_weeks++;
           }
         }
 
         content += prepare_lines();
+        content += prepare_new_year_label(week_new_year);
         content += '</svg>';
 
         document.getElementById(element_id).innerHTML = content;
