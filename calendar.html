@@ -230,6 +230,7 @@
           {"stroke": "darkgray", "from": year_median, "to": year_median},
           {"stroke": "gray", "from": year_mode, "to": year_mode},
           //{"stroke": "gold", "from": "2018-08-01", "to": new Date()},
+          {"stroke": "orange", "from": "2024-05-31", "to": "2024-05-31"},
         ];
 
         /*
@@ -285,7 +286,7 @@
 
         const fill_ranges_transformed = transform_fill_ranges_to_coordinates(fill_ranges, date);
 
-        const calendar_height = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height + calendar_new_year_label_height;
+        const calendar_height = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height + calendar_new_year_label_height + 10;
         const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6 + calendar_mean_median_mode_width;
         let content = '<svg height="96%" viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 89%; margin: 15px 6% 0 5%;">';
 
@@ -320,7 +321,7 @@
               content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.4 + '" fill="" stroke="lightgray" stroke-width="0.1"/>';
 
             const cx2 = cx + 4;
-            const cy2 = cy - calendar_weeks_numbers_height - circle_radius - 1;
+            const cy2 = cy + 1;// - calendar_weeks_numbers_height - circle_radius - 1;
             const mean_median_mode = '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">';
             if (year == year_mean && week == number_of_weeks_in_a_row)
               content += mean_median_mode + 'Mean LE' + '</text>';
