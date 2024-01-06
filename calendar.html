@@ -313,7 +313,7 @@
               content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.4 + '" fill="" stroke="lightgray" stroke-width="0.1"/>';
 
             const cx2 = cx + 4;
-            const cy2 = cy - 6;  
+            const cy2 = cy - calendar_weeks_numbers_height - circle_radius;  
             if (year == year_mean && week == number_of_weeks_in_a_row) {
               content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">Mean LE</text>';
             }
