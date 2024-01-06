@@ -40,6 +40,7 @@
       const calendar_weeks_numbers_height = 5;
       const calendar_years_numbers_width = 12;
       const calendar_mean_median_mode_width = 16;
+      const calendar_new_year_label_height = 5;
       const is_mobile = window.mobileCheck();
 
       const screen_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -76,7 +77,7 @@
 
       function prepare_new_year_label(week_new_year) {
         const cx = week_new_year * calendar_step_horizontal + calendar_years_numbers_width + circle_radius + 1;
-        const cy = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height + 10 + 5;
+        const cy = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height + calendar_new_year_label_height;
         return '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="' + cx + '" y="' + cy + '">NY</text>';
       }
 
@@ -284,7 +285,7 @@
 
         const fill_ranges_transformed = transform_fill_ranges_to_coordinates(fill_ranges, date);
 
-        const calendar_height = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height;
+        const calendar_height = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height + calendar_new_year_label_height;
         const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6 + calendar_mean_median_mode_width;
         let content = '<svg height="96%" viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 89%; margin: 15px 6% 0 5%;">';
 
