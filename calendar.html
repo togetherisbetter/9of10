@@ -37,7 +37,8 @@
       const calendar_step_horizontal = 5;
       const calendar_step_vertical = 5;
       const calendar_weeks_numbers_height = 5;
-      const calendar_years_numbers_width = 6;
+      const calendar_years_numbers_width = 12;
+      const calendar_mean_median_mode_width = 16;
       const is_mobile = window.mobileCheck();
 
       const screen_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -98,12 +99,12 @@
               y_offset += 1;
 
             const cy = y_offset - circle_radius;
-            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="10" y="' + cy + '" font-weight="bold">'
+            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="15" y="' + cy + '" font-weight="bold">'
             content += year;
             content += '</text>';
           
             const cy2 = cy + calendar_step_vertical;
-            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="10" y="' + cy2 + '">'
+            content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="end" alignment-baseline="baseline" x="15" y="' + cy2 + '">'
             const birthday_date = new Date(birthday);
             const birthday_year = birthday_date.getFullYear();
             if (birthday_date.getMonth() == 0 && birthday_date.getDate() <= 7) {
@@ -111,7 +112,7 @@
             }
             else {
               // https://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
-              const year_from = (birthday_year + year).toString().slice(2, 4);  // from 2004 get 04
+              const year_from = (birthday_year + year).toString()//.slice(2, 4);  // from 2004 get 04
               const year_to = (birthday_year + year + 1).toString().slice(2, 4);
               content +=  year_from + '/' + year_to;
             }
@@ -215,20 +216,71 @@
       }
 
       function draw_calendar(element_id, date) {
-        const fill_ranges = [
+        let fill_ranges = [ // init
           {"stroke": "white"},
           {"stroke": "skyblue", "to": new Date()},
           {"stroke": "lightgray", "from": year_mean, "to": year_mean},
           {"stroke": "darkgray", "from": year_median, "to": year_median},
           {"stroke": "gray", "from": year_mode, "to": year_mode},
-          {"stroke": "gold", "from": "2018-08-01", "to": new Date()}
+          //{"stroke": "gold", "from": "2018-08-01", "to": new Date()},
         ];
+
+        /*
+        fill_ranges = [ // life
+          {"stroke": "white"},
+          {"stroke": "lightgray", "to": new Date()},
+          //{"stroke": "lightgray", "from": year_mean, "to": year_mean},
+          //{"stroke": "darkgray", "from": year_median, "to": year_median},
+          //{"stroke": "gray", "from": year_mode, "to": year_mode},
+          //{"stroke": "gold", "from": "2018-08-01", "to": new Date()},
+        ];
+
+        fill_ranges = [ // therapy
+          {"stroke": "white"},
+          {"stroke": "lightgray", "to": new Date()},
+          //{"stroke": "lightgray", "from": year_mean, "to": year_mean},
+          //{"stroke": "darkgray", "from": year_median, "to": year_median},
+          //{"stroke": "gray", "from": year_mode, "to": year_mode},
+          {"stroke": "gold", "from": "2018-08-01", "to": new Date()},
+        ];
+
+        fill_ranges = [ // school
+          {"stroke": "white"},
+          //{"stroke": "lightgray", "from": year_mean, "to": year_mean},
+          //{"stroke": "darkgray", "from": year_median, "to": year_median},
+          //{"stroke": "gray", "from": year_mode, "to": year_mode},
+          {"stroke": "lightgreen", "from": "1988-01-01", "to": "1994-06-15"},
+          {"stroke": "skyblue", "from": "1994-09-01", "to": "2004-06-15"},
+          {"stroke": "lightsalmon", "from": "2004-09-01", "to": "2008-06-15"},
+          {"stroke": "lightgray", "from": "2008-05-01", "to": new Date()},
+          {"stroke": "orange", "from": 65},
+          //{"stroke": "red", "from": new Date(), "to": new Date()},
+        ];
+
+        fill_ranges = [ // retirement
+          {"stroke": "white"},
+          {"stroke": "skyblue","to": new Date()},
+          {"stroke": "lightgreen", "from": 65},
+          {"stroke": "lightgray", "from": year_mean, "to": year_mean},
+          {"stroke": "darkgray", "from": year_median, "to": year_median},
+          {"stroke": "gray", "from": year_mode, "to": year_mode},
+          //{"stroke": "red", "from": new Date(), "to": new Date()},
+        ];
+
+        fill_ranges = [ // empty
+          {"stroke": "white"},
+          {"stroke": "lightgray", "from": year_mean, "to": year_mean},
+          {"stroke": "darkgray", "from": year_median, "to": year_median},
+          {"stroke": "gray", "from": year_mode, "to": year_mode},
+        ];
+        */
+        //const skins = {"empty": []};
 
         const fill_ranges_transformed = transform_fill_ranges_to_coordinates(fill_ranges, date);
 
         const calendar_height = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height;
-        const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6;
-        let content = '<svg height="96%" viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 88%; margin: 15px 7% 0 5%;">';
+        const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6 + calendar_mean_median_mode_width;
+        let content = '<svg height="96%" viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 89%; margin: 15px 6% 0 5%;">';
 
         content += prepare_weeks_numbers();
         content += prepare_years_numbers(date);
@@ -256,8 +308,20 @@
             content += circle_color;
             content += '" stroke="black" stroke-width="0.1"/>';
 
-            if (week == week_new_year)  // dot for new year week
+            if (week == week_new_year)  // dot for a new year week
               content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.4 + '" fill="" stroke="lightgray" stroke-width="0.1"/>';
+
+            const cx2 = cx + 4;
+            const cy2 = cy + 1;  
+            if (year == year_mean && week == number_of_weeks_in_a_row) {
+              content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">Mean LE</text>';
+            }
+            else if (year == year_median && week == number_of_weeks_in_a_row) {
+              content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">Median LE</text>';
+            }
+            else if (year == year_mode && week == number_of_weeks_in_a_row) {
+              content += '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">Mode LE</text>';
+            }
 
             total_weeks++;
           }
