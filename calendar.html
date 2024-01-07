@@ -246,6 +246,8 @@
           let new_range = {};
           new_range["fill"] = range["fill"];
           new_range["animate"] = range["animate"];
+          new_range["stroke"] = range["stroke"];
+          new_range["stroke_width"] = range["stroke_width"];
 
           // from
           if (!range["from"])
@@ -272,9 +274,12 @@
         let fill_ranges = [ // init
           {"fill": "white"},
           {"fill": "skyblue", "to": new Date()},
-          {"fill": "#444", "from": year_le_at_birth, "to": year_le_at_birth},
-          {"fill": "#444", "from": year_median, "to": year_median},
-          {"fill": "#444", "from": year_peak, "to": year_peak},
+          {"fill": "white", "from": year_le_at_birth, "to": year_le_at_birth, "stroke_width": "0.22"},
+          //{"fill": "#444", "from": year_le_at_birth, "to": year_le_at_birth},
+          {"fill": "white", "from": year_median, "to": year_median, "stroke_width": "0.22"},
+          //{"fill": "#444", "from": year_median, "to": year_median},
+          {"fill": "white", "from": year_peak, "to": year_peak, "stroke_width": "0.22"},
+          //{"fill": "#444", "from": year_peak, "to": year_peak},
           //{"fill": "gold", "from": "2018-08-01", "to": new Date()},
           {"fill": "orange", "from": "2024-05-31", "to": "2024-05-31", "animate": "blink"},
           //{"fill": "red", "from": 78, "to": 78}
@@ -355,20 +360,28 @@
             content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + circle_radius + '" ';
             
             let circle_color = "";
+            let stroke = "black";
+            let stroke_width = "0.1";
             let blink = false;
             for (let i in fill_ranges_transformed) {
               const range = fill_ranges_transformed[i];
               if (range["from_week"] <= total_weeks && range["to_week"] >= total_weeks) {
                 circle_color = range["fill"];
+                if (range["stroke"])
+                  stroke = range["stroke"];
+                if (range["stroke_width"])
+                  stroke_width = range["stroke_width"];
               }
               if (range["to_week"] == total_weeks && range["animate"] == "blink")
                 content += 'class="blink" ';
             }
             content += 'fill="' + circle_color + '" ';
-            content += 'stroke="black" stroke-width="0.1"/>';
+            content += 'stroke="' + stroke + '" stroke-width="' + stroke_width + '"/>';
 
             if (week == week_new_year)  // dot for a new year week
               content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.4 + '" fill="" stroke="lightgray" stroke-width="0.1"/>';
+            //if (year == year_median || year == year_le_at_birth || year == year_peak)
+            //  content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.3 + '" fill="" stroke="black" stroke-width="0.1"/>';
 
             const cx2 = cx + 4;
             let cy2 = cy + 1;
