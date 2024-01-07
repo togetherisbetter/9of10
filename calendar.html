@@ -24,6 +24,14 @@
         margin: 0;
         background-color: snow;
       }
+      /* https://stackoverflow.com/questions/29205294/how-to-achieve-blinking-effect-in-svg */
+      @keyframes blink {
+        100%, 0% { fill: snow; }
+        80% { fill: orange; }
+      }
+      .blink {
+        animation: blink 1.5s infinite;
+      }
     </style>
     <script type="text/javascript">
       window.mobileCheck = function() {  // https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
@@ -42,6 +50,10 @@
       const calendar_mean_median_mode_width = 16;
       const calendar_new_year_label_height = 5;
       const is_mobile = window.mobileCheck();
+
+      const data_men_1987 = [2215, 216, 113, 82, 73, 69, 67, 70, 68, 61, 61, 61, 61, 57, 66, 78, 96, 120, 154, 157, 176, 196, 206, 212, 208, 229, 237, 247, 248, 275, 286, 282, 301, 323, 322, 362, 376, 397, 408, 408, 501, 501, 568, 658, 658, 792, 792, 837, 906, 917, 1040, 1072, 1179, 1221, 1327, 1420, 1517, 1620, 1648, 1839, 1901, 1974, 2089, 2188, 2181, 2268, 2378, 2442, 2593, 2646, 2646, 2700, 2793, 2793, 2793, 2700, 2700, 2613, 2610, 2534, 2464, 2270, 2171, 2035, 1792, 1601, 1466, 1268, 985, 906, 708, 545, 444, 343, 257, 194, 143, 102, 72, 50, 33, 22, 14, 9, 5, 3, 2, 1, 1, 0, 0];
+
+      const data_women_1989 = [1456, 163, 82, 58, 53, 46, 42, 37, 35, 32, 30, 27, 26, 32, 43, 50, 62, 63, 69, 71, 69, 68, 69, 69, 69, 75, 69, 76, 78, 83, 87, 92, 97, 101, 114, 124, 134, 139, 156, 173, 190, 187, 242, 225, 259, 290, 275, 347, 335, 373, 414, 424, 483, 535, 586, 623, 678, 741, 781, 863, 927, 1015, 1085, 1229, 1309, 1499, 1539, 1695, 1836, 1950, 2271, 2247, 2279, 2542, 2787, 2949, 3037, 3288, 3362, 3580, 3652, 3726, 3804, 3638, 3631, 3514, 3306, 3077, 2709, 2609, 2024, 1924, 1516, 1225, 948, 812, 628, 474, 349, 250, 174, 118, 77, 49, 31, 18, 11, 6, 3, 2, 2];
 
       const screen_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
       //const calendar_step_vertical = (screen_height - 15) / number_of_years;
@@ -78,7 +90,7 @@
       function prepare_new_year_label(week_new_year) {
         const cx = week_new_year * calendar_step_horizontal + calendar_years_numbers_width + circle_radius + 1;
         const cy = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height + calendar_new_year_label_height;
-        return '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="' + cx + '" y="' + cy + '">NY</text>';
+        return '<text font-size="3" fill="black" font-family="Verdana" text-anchor="middle" alignment-baseline="baseline" x="' + cx + '" y="' + cy + '">New Year</text>';
       }
 
       function prepare_weeks_numbers() {
@@ -148,7 +160,9 @@
 
       function make_coordinates(array) {
         const total = array.reduce((a, b) => a + b, 0);
-        const max = Math.max(...array);
+        // const max = Math.max(...array);
+        const all_data = data_men_1987.concat(data_women_1989);
+        const max = Math.max(...all_data);
 
         let coordinates_deaths = {};
         let coordinates_integral = {};
@@ -166,29 +180,31 @@
         return {'deaths': coordinates_deaths, 'integral': coordinates_integral};
       }
 
-      function prepare_line_deaths(coordinates) {
+      function prepare_line_deaths(coordinates, stroke) {
         let content = '';
-        content += '<polyline fill="none" stroke="black" stroke-width="0.3" stroke-linejoin="round" points="';
+        content += '<polyline fill="none" stroke="' + stroke + '" stroke-width="0.5" stroke-linejoin="round" points="';
         content += coordinates_to_points(coordinates.deaths);
         content += '"/>';
         return content;
       }
-      function prepare_line_integral(coordinates) {
+      function prepare_line_integral(coordinates, stroke) {
         let content = '';
-        content += '<polyline fill="none" stroke="black" stroke-width="0.3" stroke-dasharray="4 2" stroke-linejoin="round" points="';
+        content += '<polyline fill="none" stroke="' + stroke + '" stroke-width="0.5" stroke-dasharray="4 2" stroke-linejoin="round" points="';
         content += coordinates_to_points(coordinates.integral);
         content += '"/>';
         return content;
       }
 
       function prepare_lines() {
-        const data = [2215, 216, 113, 82, 73, 69, 67, 70, 68, 61, 61, 61, 61, 57, 66, 78, 96, 120, 154, 157, 176, 196, 206, 212, 208, 229, 237, 247, 248, 275, 286, 282, 301, 323, 322, 362, 376, 397, 408, 408, 501, 501, 568, 658, 658, 792, 792, 837, 906, 917, 1040, 1072, 1179, 1221, 1327, 1420, 1517, 1620, 1648, 1839, 1901, 1974, 2089, 2188, 2181, 2268, 2378, 2442, 2593, 2646, 2646, 2700, 2793, 2793, 2793, 2700, 2700, 2613, 2610, 2534, 2464, 2270, 2171, 2035, 1792, 1601, 1466, 1268, 985, 906, 708, 545, 444, 343, 257, 194, 143, 102, 72, 50, 33, 22, 14, 9, 5, 3, 2, 1, 1, 0, 0];
-        const coordinates = make_coordinates(data);
-        //console.log(coordinates)
-
         let content = '';
-        content += prepare_line_deaths(coordinates);
-        content += prepare_line_integral(coordinates);
+
+        const coordinates_men_1987 = make_coordinates(data_men_1987);
+        content += prepare_line_deaths(coordinates_men_1987, "black");
+        content += prepare_line_integral(coordinates_men_1987, "black");
+
+        const coordinates_women_1989 = make_coordinates(data_women_1989);
+        content += prepare_line_deaths(coordinates_women_1989, "gray");
+        content += prepare_line_integral(coordinates_women_1989, "gray");
 
         return content;
       }
@@ -200,6 +216,7 @@
 
           let new_range = {};
           new_range["stroke"] = range["stroke"];
+          new_range["animate"] = range["animate"];
 
           // from
           if (!range["from"])
@@ -230,7 +247,8 @@
           {"stroke": "darkgray", "from": year_median, "to": year_median},
           {"stroke": "gray", "from": year_mode, "to": year_mode},
           //{"stroke": "gold", "from": "2018-08-01", "to": new Date()},
-          {"stroke": "orange", "from": "2024-05-31", "to": "2024-05-31"},
+          {"stroke": "orange", "from": "2024-05-31", "to": "2024-05-31", "animate": "blink"},
+          //{"stroke": "red", "from": 78, "to": 78}
         ];
 
         /*
@@ -305,17 +323,20 @@
           let cy = y_offset - circle_radius;
           for (let week = 1; week <= number_of_weeks_in_a_row; week++) {
             let cx = (week + 1) * calendar_step_horizontal + calendar_years_numbers_width - circle_radius;
-            content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + circle_radius + '" fill="';
+            content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + circle_radius + '" ';
             
             let circle_color = "";
+            let blink = false;
             for (let i in fill_ranges_transformed) {
               const range = fill_ranges_transformed[i];
               if (range["from_week"] <= total_weeks && range["to_week"] >= total_weeks) {
                 circle_color = range["stroke"];
               }
+              if (range["to_week"] == total_weeks && range["animate"] == "blink")
+                content += 'class="blink" ';
             }
-            content += circle_color;
-            content += '" stroke="black" stroke-width="0.1"/>';
+            content += 'fill="' + circle_color + '" ';
+            content += 'stroke="black" stroke-width="0.1"/>';
 
             if (week == week_new_year)  // dot for a new year week
               content += '<circle cx="' + cx + '" cy="' + cy + '" r="' + 0.4 + '" fill="" stroke="lightgray" stroke-width="0.1"/>';
@@ -332,7 +353,7 @@
               content += mean_median_mode + 'Median LE' + '</text>';
             else if (year == year_mode && week == number_of_weeks_in_a_row)
               content += mean_median_mode + 'Mode LE' + '</text>';
-
+            
             total_weeks++;
           }
         }
