@@ -215,7 +215,7 @@
           const range = fill_ranges[i];
 
           let new_range = {};
-          new_range["stroke"] = range["stroke"];
+          new_range["fill"] = range["fill"];
           new_range["animate"] = range["animate"];
 
           // from
@@ -241,63 +241,63 @@
 
       function draw_calendar(element_id, date) {
         let fill_ranges = [ // init
-          {"stroke": "white"},
-          {"stroke": "skyblue", "to": new Date()},
-          {"stroke": "lightgray", "from": year_mean, "to": year_mean},
-          {"stroke": "darkgray", "from": year_median, "to": year_median},
-          {"stroke": "gray", "from": year_mode, "to": year_mode},
-          //{"stroke": "gold", "from": "2018-08-01", "to": new Date()},
-          {"stroke": "orange", "from": "2024-05-31", "to": "2024-05-31", "animate": "blink"},
-          //{"stroke": "red", "from": 78, "to": 78}
+          {"fill": "white"},
+          {"fill": "skyblue", "to": new Date()},
+          {"fill": "#444", "from": year_mean, "to": year_mean},
+          {"fill": "#444", "from": year_median, "to": year_median},
+          {"fill": "#444", "from": year_mode, "to": year_mode},
+          //{"fill": "gold", "from": "2018-08-01", "to": new Date()},
+          {"fill": "orange", "from": "2024-05-31", "to": "2024-05-31", "animate": "blink"},
+          //{"fill": "red", "from": 78, "to": 78}
         ];
 
         /*
         fill_ranges = [ // life
-          {"stroke": "white"},
-          {"stroke": "lightgray", "to": new Date()},
-          //{"stroke": "lightgray", "from": year_mean, "to": year_mean},
-          //{"stroke": "darkgray", "from": year_median, "to": year_median},
-          //{"stroke": "gray", "from": year_mode, "to": year_mode},
-          //{"stroke": "gold", "from": "2018-08-01", "to": new Date()},
+          {"fill": "white"},
+          {"fill": "lightgray", "to": new Date()},
+          //{"fill": "lightgray", "from": year_mean, "to": year_mean},
+          //{"fill": "darkgray", "from": year_median, "to": year_median},
+          //{"fill": "gray", "from": year_mode, "to": year_mode},
+          //{"fill": "gold", "from": "2018-08-01", "to": new Date()},
         ];
 
         fill_ranges = [ // therapy
-          {"stroke": "white"},
-          {"stroke": "lightgray", "to": new Date()},
-          //{"stroke": "lightgray", "from": year_mean, "to": year_mean},
-          //{"stroke": "darkgray", "from": year_median, "to": year_median},
-          //{"stroke": "gray", "from": year_mode, "to": year_mode},
-          {"stroke": "gold", "from": "2018-08-01", "to": new Date()},
+          {"fill": "white"},
+          {"fill": "lightgray", "to": new Date()},
+          //{"fill": "lightgray", "from": year_mean, "to": year_mean},
+          //{"fill": "darkgray", "from": year_median, "to": year_median},
+          //{"fill": "gray", "from": year_mode, "to": year_mode},
+          {"fill": "gold", "from": "2018-08-01", "to": new Date()},
         ];
 
         fill_ranges = [ // school
-          {"stroke": "white"},
-          //{"stroke": "lightgray", "from": year_mean, "to": year_mean},
-          //{"stroke": "darkgray", "from": year_median, "to": year_median},
-          //{"stroke": "gray", "from": year_mode, "to": year_mode},
-          {"stroke": "lightgreen", "from": "1988-01-01", "to": "1994-06-15"},
-          {"stroke": "skyblue", "from": "1994-09-01", "to": "2004-06-15"},
-          {"stroke": "lightsalmon", "from": "2004-09-01", "to": "2008-06-15"},
-          {"stroke": "lightgray", "from": "2008-05-01", "to": new Date()},
-          {"stroke": "orange", "from": 65},
-          //{"stroke": "red", "from": new Date(), "to": new Date()},
+          {"fill": "white"},
+          //{"fill": "lightgray", "from": year_mean, "to": year_mean},
+          //{"fill": "darkgray", "from": year_median, "to": year_median},
+          //{"fill": "gray", "from": year_mode, "to": year_mode},
+          {"fill": "lightgreen", "from": "1988-01-01", "to": "1994-06-15"},
+          {"fill": "skyblue", "from": "1994-09-01", "to": "2004-06-15"},
+          {"fill": "lightsalmon", "from": "2004-09-01", "to": "2008-06-15"},
+          {"fill": "lightgray", "from": "2008-05-01", "to": new Date()},
+          {"fill": "orange", "from": 65},
+          //{"fill": "red", "from": new Date(), "to": new Date()},
         ];
 
         fill_ranges = [ // retirement
-          {"stroke": "white"},
-          {"stroke": "skyblue","to": new Date()},
-          {"stroke": "lightgreen", "from": 65},
-          {"stroke": "lightgray", "from": year_mean, "to": year_mean},
-          {"stroke": "darkgray", "from": year_median, "to": year_median},
-          {"stroke": "gray", "from": year_mode, "to": year_mode},
-          //{"stroke": "red", "from": new Date(), "to": new Date()},
+          {"fill": "white"},
+          {"fill": "skyblue","to": new Date()},
+          {"fill": "lightgreen", "from": 65},
+          {"fill": "lightgray", "from": year_mean, "to": year_mean},
+          {"fill": "darkgray", "from": year_median, "to": year_median},
+          {"fill": "gray", "from": year_mode, "to": year_mode},
+          //{"fill": "red", "from": new Date(), "to": new Date()},
         ];
 
         fill_ranges = [ // empty
-          {"stroke": "white"},
-          {"stroke": "lightgray", "from": year_mean, "to": year_mean},
-          {"stroke": "darkgray", "from": year_median, "to": year_median},
-          {"stroke": "gray", "from": year_mode, "to": year_mode},
+          {"fill": "white"},
+          {"fill": "lightgray", "from": year_mean, "to": year_mean},
+          {"fill": "darkgray", "from": year_median, "to": year_median},
+          {"fill": "gray", "from": year_mode, "to": year_mode},
         ];
         */
         //const skins = {"empty": []};
@@ -330,7 +330,7 @@
             for (let i in fill_ranges_transformed) {
               const range = fill_ranges_transformed[i];
               if (range["from_week"] <= total_weeks && range["to_week"] >= total_weeks) {
-                circle_color = range["stroke"];
+                circle_color = range["fill"];
               }
               if (range["to_week"] == total_weeks && range["animate"] == "blink")
                 content += 'class="blink" ';
@@ -344,7 +344,7 @@
             const cx2 = cx + 4;
             let cy2 = cy + 1;
             if (is_mobile)
-              cy2 = cy2 - 10;
+              cy2 = cy2 - 10 + 1;
 
             const mean_median_mode = '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">';
             if (year == year_mean && week == number_of_weeks_in_a_row)
