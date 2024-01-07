@@ -47,7 +47,7 @@
       const calendar_step_vertical = 5;
       const calendar_weeks_numbers_height = 5;
       const calendar_years_numbers_width = 12;
-      const calendar_le_at_birth_median_peak_width = 18;
+      const calendar_le_at_birth_median_peak_width = 20;
       const calendar_new_year_label_height = 5;
       const is_mobile = window.mobileCheck();
 
@@ -392,9 +392,9 @@
             if (year == year_le_at_birth && week == number_of_weeks_in_a_row)
               content += le_at_birth_median_peak + 'LE at birth' + '</text>';
             else if (year == year_median && week == number_of_weeks_in_a_row)
-              content += le_at_birth_median_peak + '50%' + '</text>';
+              content += le_at_birth_median_peak + '50% dead' + '</text>';
             else if (year == year_peak && week == number_of_weeks_in_a_row)
-              content += le_at_birth_median_peak + 'Peak' + '</text>';
+              content += le_at_birth_median_peak + 'Peak deaths' + '</text>';
             
             total_weeks++;
           }
