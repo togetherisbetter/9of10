@@ -47,7 +47,7 @@
       const calendar_step_vertical = 5;
       const calendar_weeks_numbers_height = 5;
       const calendar_years_numbers_width = 12;
-      const calendar_mean_median_mode_width = 16;
+      const calendar_le_at_birth_median_peak_width = 18;
       const calendar_new_year_label_height = 5;
       const is_mobile = window.mobileCheck();
 
@@ -85,27 +85,15 @@
         return percentiles;
       }
 
-      function get_mode_value(range) {
+      function get_peak_value(range) {
         const max_value = Math.max(...range);
-        const mode = range.indexOf(max_value) + 1;  // to start from 1
-        return {'mode': mode, 'value': max_value};
+        const peak = range.indexOf(max_value) + 1;  // to start from 1
+        return {'peak': peak, 'value': max_value};
       }
 
-      // to be calculated
-      function get_mean_value(range) {
-        return {'mean': 65, 'value': 0};
-
-        const total = get_total(range);
-        const avg_value = total / range.length;
-        for (let i in range) {
-          if (range[i] > avg_value)
-            return {'mean': i, 'value': avg_value};
-        }
-      }
-
-      const year_mean = get_mean_value(data_men_1987).mean;
+      const year_le_at_birth = 65;
       const year_median = get_percentiles(data_men_1987)['50'];
-      const year_mode = get_mode_value(data_men_1987).mode;      
+      const year_peak = get_peak_value(data_men_1987).peak;      
 
       function recalculate_calendar(element) {
         draw_calendar("calendar", element.value);
@@ -203,7 +191,7 @@
 
       function make_coordinates(array) {
         const total = array.reduce((a, b) => a + b, 0);
-        const max = get_mode_value(all_data).value;
+        const max = get_peak_value(all_data).value;
 
         let coordinates_deaths = {};
         let coordinates_integral = {};
@@ -212,7 +200,7 @@
         for (let i = 0; i < number_of_years; i++) {
           const value = array[i];
           //let value_mapped_on_weeks = Math.floor((value / max) * number_of_weeks_in_a_row);  // link to weeks dots
-          let value_mapped_on_weeks = (value / max) * number_of_weeks_in_a_row * 0.8;  // do not link to weeks dots, 0.8 means scale a bit lower to not hit 52-nd week with the peak
+          let value_mapped_on_weeks = (value / max) * number_of_weeks_in_a_row * 0.8;  // do not link to weeks dots, 0.8 le_at_births scale a bit lower to not hit 52-nd week with the peak
           coordinates_deaths[i+1] = value_mapped_on_weeks;  // +1 because year in data starts with 0, on chart with 1
           
           integral += (value / total) * number_of_weeks_in_a_row;
@@ -284,9 +272,9 @@
         let fill_ranges = [ // init
           {"fill": "white"},
           {"fill": "skyblue", "to": new Date()},
-          {"fill": "#444", "from": year_mean, "to": year_mean},
+          {"fill": "#444", "from": year_le_at_birth, "to": year_le_at_birth},
           {"fill": "#444", "from": year_median, "to": year_median},
-          {"fill": "#444", "from": year_mode, "to": year_mode},
+          {"fill": "#444", "from": year_peak, "to": year_peak},
           //{"fill": "gold", "from": "2018-08-01", "to": new Date()},
           {"fill": "orange", "from": "2024-05-31", "to": "2024-05-31", "animate": "blink"},
           //{"fill": "red", "from": 78, "to": 78}
@@ -296,26 +284,26 @@
         fill_ranges = [ // life
           {"fill": "white"},
           {"fill": "lightgray", "to": new Date()},
-          //{"fill": "lightgray", "from": year_mean, "to": year_mean},
+          //{"fill": "lightgray", "from": year_le_at_birth, "to": year_le_at_birth},
           //{"fill": "darkgray", "from": year_median, "to": year_median},
-          //{"fill": "gray", "from": year_mode, "to": year_mode},
+          //{"fill": "gray", "from": year_peak, "to": year_peak},
           //{"fill": "gold", "from": "2018-08-01", "to": new Date()},
         ];
 
         fill_ranges = [ // therapy
           {"fill": "white"},
           {"fill": "lightgray", "to": new Date()},
-          //{"fill": "lightgray", "from": year_mean, "to": year_mean},
+          //{"fill": "lightgray", "from": year_le_at_birth, "to": year_le_at_birth},
           //{"fill": "darkgray", "from": year_median, "to": year_median},
-          //{"fill": "gray", "from": year_mode, "to": year_mode},
+          //{"fill": "gray", "from": year_peak, "to": year_peak},
           {"fill": "gold", "from": "2018-08-01", "to": new Date()},
         ];
 
         fill_ranges = [ // school
           {"fill": "white"},
-          //{"fill": "lightgray", "from": year_mean, "to": year_mean},
+          //{"fill": "lightgray", "from": year_le_at_birth, "to": year_le_at_birth},
           //{"fill": "darkgray", "from": year_median, "to": year_median},
-          //{"fill": "gray", "from": year_mode, "to": year_mode},
+          //{"fill": "gray", "from": year_peak, "to": year_peak},
           {"fill": "lightgreen", "from": "1988-01-01", "to": "1994-06-15"},
           {"fill": "skyblue", "from": "1994-09-01", "to": "2004-06-15"},
           {"fill": "lightsalmon", "from": "2004-09-01", "to": "2008-06-15"},
@@ -328,17 +316,17 @@
           {"fill": "white"},
           {"fill": "skyblue","to": new Date()},
           {"fill": "lightgreen", "from": 65},
-          {"fill": "lightgray", "from": year_mean, "to": year_mean},
+          {"fill": "lightgray", "from": year_le_at_birth, "to": year_le_at_birth},
           {"fill": "darkgray", "from": year_median, "to": year_median},
-          {"fill": "gray", "from": year_mode, "to": year_mode},
+          {"fill": "gray", "from": year_peak, "to": year_peak},
           //{"fill": "red", "from": new Date(), "to": new Date()},
         ];
 
         fill_ranges = [ // empty
           {"fill": "white"},
-          {"fill": "lightgray", "from": year_mean, "to": year_mean},
+          {"fill": "lightgray", "from": year_le_at_birth, "to": year_le_at_birth},
           {"fill": "darkgray", "from": year_median, "to": year_median},
-          {"fill": "gray", "from": year_mode, "to": year_mode},
+          {"fill": "gray", "from": year_peak, "to": year_peak},
         ];
         */
         //const skins = {"empty": []};
@@ -346,7 +334,7 @@
         const fill_ranges_transformed = transform_fill_ranges_to_coordinates(fill_ranges, date);
 
         const calendar_height = number_of_years * calendar_step_vertical + calendar_weeks_numbers_height + calendar_new_year_label_height + 10;
-        const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6 + calendar_mean_median_mode_width;
+        const calendar_width = number_of_weeks_in_a_row * calendar_step_horizontal + calendar_years_numbers_width + 6 + calendar_le_at_birth_median_peak_width;
         let content = '<svg height="96%" viewBox="0 0 ' + calendar_width + ' ' + calendar_height + '" xmlns="http://www.w3.org/2000/svg" style="width: 89%; margin: 15px 6% 0 5%;">';
 
         content += prepare_weeks_numbers();
@@ -387,13 +375,13 @@
             if (is_mobile)
               cy2 = cy2 - 10 + 1;
 
-            const mean_median_mode = '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">';
-            if (year == year_mean && week == number_of_weeks_in_a_row)
-              content += mean_median_mode + 'Mean LE' + '</text>';
+            const le_at_birth_median_peak = '<text font-size="3" fill="black" font-family="Verdana" text-anchor="start" alignment-baseline="baseline" x="'+ cx2 + '" y="' + cy2 + '">';
+            if (year == year_le_at_birth && week == number_of_weeks_in_a_row)
+              content += le_at_birth_median_peak + 'LE at birth' + '</text>';
             else if (year == year_median && week == number_of_weeks_in_a_row)
-              content += mean_median_mode + 'Median LE' + '</text>';
-            else if (year == year_mode && week == number_of_weeks_in_a_row)
-              content += mean_median_mode + 'Mode LE' + '</text>';
+              content += le_at_birth_median_peak + '50%' + '</text>';
+            else if (year == year_peak && week == number_of_weeks_in_a_row)
+              content += le_at_birth_median_peak + 'Peak' + '</text>';
             
             total_weeks++;
           }
